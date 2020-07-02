@@ -9,7 +9,6 @@ void main(List<String> args) {
 // void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return _MyAppState();
@@ -17,28 +16,48 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-      final _questions = const [
-      {'questionText':'What\'s your favorite color?',
-       'answers': ['Blue', 'Red', 'Green', 'Yellow'],
-      },
-      {'questionText':'What\'s your favorite animal?',
-       'answers': ['Dog', 'Cat', 'Dolphin', 'Wombat'],
-      },
-      {'questionText':'What\'s your favorite snack?',
-       'answers': ['M&Ms', 'Cookies', 'chips', 'bars'],
-      },
-    ];
+  final _questions = const [
+    {
+      'questionText': 'What\'s your favorite color?',
+      'answers': [
+        {'text': 'Blue', 'score': 10},
+        {'text': 'Green', 'score': 7},
+        {'text': 'Yellow', 'score': 5},
+        {'text': 'Red', 'score': 12}
+      ],
+    },
+    {
+      'questionText': 'What\'s your favorite animal?',
+      'answers': [
+        {'text': 'Wombat', 'score': 15},
+        {'text': 'Dog', 'score': 9},
+        {'text': 'Cat', 'score': 3},
+        {'text': 'Platypus', 'score': 10}
+      ],
+    },
+    {
+      'questionText': 'What\'s your favorite snack?',
+      'answers': [
+        {'text': 'Blue', 'score': 10},
+        {'text': 'Blue', 'score': 10},
+        {'text': 'Blue', 'score': 10},
+        {'text': 'Blue', 'score': 10},
+      ],
+    },
+  ];
   var _questionIndex = 0;
+  var _totalScore = 0;
 
-  void _answerQuestion() {
+  void _answerQuestion(int score) {
+    _totalScore += score;
+
     setState(() {
       _questionIndex++;
-  });
+    });
     print(_questionIndex);
     if (_questionIndex < _questions.length) {
       print('We have more questions');
-    }
-    else {
+    } else {
       print('No more questions');
     }
   }
@@ -50,14 +69,14 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: _questionIndex < _questions.length 
-          ? Quiz(
-            answerQuestion: _answerQuestion,
-            questionIndex: _questionIndex,
-            questions: _questions,)
-          : Result(),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                answerQuestion: _answerQuestion,
+                questionIndex: _questionIndex,
+                questions: _questions,
+              )
+            : Result(_totalScore),
       ),
     );
-  } 
+  }
 }
-  
